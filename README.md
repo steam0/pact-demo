@@ -38,3 +38,32 @@ Just run this command in your preferred shell. THis will download and install a 
 ### 7. Get excited for the workshop!
 
 See you all on Tuesday
+
+
+
+## Install and configure a pact broker database
+1. Start postgres db
+
+```
+docker run --name pact-db -p 6543:5432 -e POSTGRES_USER=pact -e POSTGRES_PASSWORD=password -d postgres
+```
+
+2. Connect to db
+
+```
+docker run -it --link pact-db:postgres --rm postgres sh -c 'exec psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U pact'
+```
+
+3. Run script
+
+```
+CREATE USER pactuser WITH PASSWORD 'password';
+CREATE DATABASE pactbroker WITH OWNER pactuser;
+GRANT ALL PRIVILEGES ON DATABASE pactbroker TO pactuser;
+```
+
+## Run Pact Broker
+
+```
+docker run --name pactbroker --link pact-db:postgres -e PACT_BROKER_DATABASE_USERNAME=pactuser -e PACT_BROKER_DATABASE_PASSWORD=password -e PACT_BROKER_DATABASE_HOST=postgres -e PACT_BROKER_DATABASE_NAME=pactbroker -d -p 3000:80 dius/pact-broker
+```
