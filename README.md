@@ -19,7 +19,7 @@ Desktop from this location: https://www.docker.com/products/docker-desktop
 
 ### 4. Download repository
 
-Clone this repository from  Github and open it in your IDE
+Clone this repository from  Github and open it in your IDE and run it! This will download all the neccesary dependencies.
 
 
 ### 5. Download and run a postgres database using docker
